@@ -1,0 +1,158 @@
+@use "./index" as index;
+@use "sass:math";
+
+* {
+	margin: 0;
+	box-sizing: border-box;
+	line-height: 1;
+}
+
+html,
+body {
+	padding: 0;
+	width: 100%;
+	height: -webkit-fill-available;
+	font-family: Arial, Helvetica, sans-serif;
+	overflow: hidden;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track-piece {
+	background: index.$fallen-gray;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: index.$close-white;
+	border-radius: 10px;
+}
+
+div {
+	margin: 0 auto;
+	text-align: center;
+}
+
+li {
+	list-style: none;
+	list-style-type: none;
+}
+
+#root {
+	width: 100%;
+	height: inherit;
+	overflow: auto;
+	position: relative;
+}
+
+input {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 4px;
+	background-color: transparent;
+	padding: 5px;
+
+	&[type="number"]::-webkit-outer-spin-button,
+	&[type="number"]::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+	}
+
+	/* Firefox */
+	&[type="number"] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+	}
+
+	&:focus,
+	&:focus-visible {
+		outline: none;
+		outline-offset: none;
+	}
+}
+
+button {
+	border-radius: 4px;
+	padding: 5px;
+	font-weight: 600;
+	border: none;
+	width: 100px;
+}
+
+.row {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-wrap: wrap;
+
+	@include index.viewport("small") {
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+.column {
+	display: flex;
+	margin: 0;
+
+	@include index.viewport("small") {
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.left,
+	.right {
+		max-width: 50%;
+		flex-basis: 50%;
+
+		@include index.viewport("small") {
+			max-width: 100%;
+			flex-basis: 100%;
+		}
+	}
+}
+
+$counts: 2, 3, 4, 5, 6;
+
+@each $displayCount in $counts {
+	.large-#{$displayCount} {
+		max-width: calc(100% * math.div($displayCount, 12));
+		flex-basis: calc(100% * math.div($displayCount, 12));
+
+		@include index.viewport("small") {
+			@include index.viewport("small") {
+				max-width: 100%;
+				flex-basis: 100%;
+			}
+		}
+	}
+}
+
+svg {
+	pointer-events: none;
+}
+
+fieldset {
+	border-radius: 12px;
+	border: none;
+
+	input {
+		border: none;
+		box-shadow: none;
+		transition: none;
+		font-size: 18px;
+
+		@include index.viewport("small") {
+			font-size: 24px;
+		}
+	}
+}
