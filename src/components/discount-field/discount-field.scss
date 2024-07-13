@@ -1,0 +1,30 @@
+@use "../../styles/index" as index;
+
+.discount-button {
+	background: index.$monk-green;
+	border-color: index.$monk-green;
+	color: index.$pure-white;
+	border-width: 2px;
+	line-height: 20px;
+}
+
+.discount-menu {
+	justify-content: flex-start;
+	column-gap: 16px;
+}
+
+.discount-number {
+	width: 30%;
+
+	&.pill {
+		border-radius: 30px;
+	}
+}
+
+.discount-dropdown {
+	width: 50%;
+
+	&.pill {
+		border-radius: 30px;
+	}
+}

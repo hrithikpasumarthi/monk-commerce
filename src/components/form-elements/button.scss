@@ -1,0 +1,11 @@
+@use "../../styles/index" as index;
+
+.form-button {
+	height: 32px;
+	width: auto;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.25;
+	border: 1px solid black;
+	padding-inline: 28px;
+}
