@@ -28,12 +28,12 @@ export default ({
 			})}
 			{...rest}
 		>
-			<select name={id} title={id}>
+			<select name={id} title={id} value={selectedValue} readOnly>
 				{options.map((opt) => {
 					return (
 						<option
 							value={opt.value}
-							selected={opt.value === selectedValue}
+							// selected={opt.value === selectedValue}
 						>
 							{opt.text}
 						</option>

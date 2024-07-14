@@ -6,5 +6,5 @@ const domRoot = document.getElementById("root");
 
 if (domRoot) {
 	const root = createRoot(domRoot);
-	root.render(<App />, document.getElementById("root"));
+	root.render(<App />);
 }

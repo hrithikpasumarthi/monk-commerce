@@ -10,11 +10,12 @@
 
 .discount-menu {
 	justify-content: flex-start;
-	column-gap: 16px;
+	column-gap: 10px;
 }
 
 .discount-number {
-	width: 30%;
+	width: 35%;
+	padding-inline-start: 10px;
 
 	&.pill {
 		border-radius: 30px;
@@ -22,7 +23,7 @@
 }
 
 .discount-dropdown {
-	width: 50%;
+	width: 55%;
 
 	&.pill {
 		border-radius: 30px;

@@ -6,8 +6,9 @@ module.exports = {
 	extends: ["plugin:react/recommended", "airbnb", "prettier"],
 	overrides: [],
 	parserOptions: {
-		ecmaVersioen: "latest",
+		ecmaVersion: "latest",
 		sourceType: "module",
+		parser: "babel-eslint-parser",
 	},
 	plugins: ["react", "prettier"],
 	rules: {

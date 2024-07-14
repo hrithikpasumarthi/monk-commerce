@@ -8,7 +8,7 @@ import "./number-input.scss";
 export default ({
 	classnames,
 	value,
-	defaultValue = 0,
+	defaultValue,
 	handleClick = _.noop(),
 	...rest
 }) => {
@@ -16,8 +16,7 @@ export default ({
 		<div className={cn(classnames, "form-number-input", "row")} {...rest}>
 			<input
 				type="number"
-				placeholder={defaultValue}
-				defaultValue={defaultValue}
+				placeholder={0}
 				value={value}
 				{...createSeparateHandlers(handleClick)}
 			/>

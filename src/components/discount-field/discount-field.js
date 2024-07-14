@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, NumberInput, SelectDropDown } from "../form-elements";
 
 import "./discount-field.scss";
 
-const DiscountField = ({ id, round = false }) => {
-	const [showDiscountMenu, toggleShowDiscountMenu] = useState(false);
-	const [discountValue, setDiscountValue] = useState(0);
-	const [discountType, updateDiscountType] = useState("percentage");
-
-	return showDiscountMenu ? (
+const DiscountField = ({
+	id,
+	item,
+	productId,
+	showOptions = false,
+	round = false,
+	onButtonClick,
+	onValueChange,
+}) => {
+	return showOptions ? (
 		<div className="discount-menu row">
 			<NumberInput
-				value={discountValue}
+				value={item.discount?.value}
 				classnames={[
 					"discount-number",
 					{
@@ -19,13 +23,25 @@ const DiscountField = ({ id, round = false }) => {
 					},
 				]}
 				handleClick={(ev) => {
-					setDiscountValue(ev.target.value);
-					console.log("discount value", ev.target.value);
+					if (item.id === productId) {
+						onValueChange({
+							itemId: productId,
+							discountType: item.discount?.type,
+							discountValue: parseInt(ev.target.value, 10),
+						});
+					} else {
+						onValueChange({
+							itemId: productId,
+							variantId: item.id,
+							discountType: item.discount?.type,
+							discountValue: parseInt(ev.target.value, 10),
+						});
+					}
 				}}
 			/>
 			<SelectDropDown
 				id={`discount_main_${id}`}
-				selectedValue={discountType}
+				selectedValue={item.discount?.type}
 				classnames={[
 					"discount-dropdown",
 					{
@@ -34,11 +50,23 @@ const DiscountField = ({ id, round = false }) => {
 				]}
 				options={[
 					{ text: "% Off", value: "percentage" },
-					{ text: "Flat", value: "flat" },
+					{ text: "Flat Off", value: "flat" },
 				]}
 				handleClick={(value) => {
-					updateDiscountType(value);
-					console.log("discount type", value);
+					if (item.id === productId) {
+						onValueChange({
+							itemId: productId,
+							discountType: value,
+							discountValue: item.discount?.value,
+						});
+					} else {
+						onValueChange({
+							itemId: productId,
+							variantId: item.id,
+							discountType: value,
+							discountValue: item.discount?.value,
+						});
+					}
 				}}
 			/>
 		</div>
@@ -46,7 +74,11 @@ const DiscountField = ({ id, round = false }) => {
 		<Button
 			classnames={[`discount-button`]}
 			handleClick={() => {
-				toggleShowDiscountMenu(!showDiscountMenu);
+				if (item.id === productId) {
+					onButtonClick({ itemId: productId });
+				} else {
+					onButtonClick({ itemId: productId, variantId: item.id });
+				}
 			}}
 		>
 			Add Discount

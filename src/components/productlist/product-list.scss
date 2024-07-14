@@ -33,10 +33,22 @@
 	.body {
 		padding-block: 16px;
 
+		.product-list-item {
+			border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			margin-block-end: 16px;
+
+			&:last-child {
+				border-bottom: 0;
+				margin-block-end: 0;
+			}
+		}
+
 		.list-row {
 			color: rgba(0, 0, 0, 0.8);
 
 			&.product-list-row {
+				padding-block-end: 4px;
+
 				&:only-child {
 					padding-block-end: 16px;
 				}
@@ -44,15 +56,27 @@
 
 			&.variant-list-row {
 				padding-block-end: 16px;
-				margin-inline-start: 40px;
-			}
-
-			&:last-child {
-				padding-block-end: 0;
+				margin-inline-start: 36px;
 			}
 
 			.number {
-				justify-content: center;
+				justify-content: space-evenly;
+
+				&::before {
+					content: url("../../assets/group_anchor.png");
+				}
+
+				&.after {
+					justify-content: flex-end;
+
+					&::before {
+						content: none;
+					}
+
+					&::after {
+						content: url("../../assets/group_anchor.png");
+					}
+				}
 			}
 
 			.name {

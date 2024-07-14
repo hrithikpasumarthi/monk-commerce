@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import cn from "classnames";
+import createSeparateHandlers from "../utils";
 import { Button, EditInput } from "../form-elements";
 import DiscountField from "../discount-field/discount-field";
+import ProductPicker from "../productpicker/product-picker";
+import useProductList from "./useProductList";
 
 import cross from "../../assets/cross.png";
 import "./product-list.scss";
-import createSeparateHandlers from "../utils";
 
 const AddProductButton = ({ onClick = _.noop() }) => {
 	return (
@@ -19,33 +21,79 @@ const AddProductButton = ({ onClick = _.noop() }) => {
 const ProductItemTemplate = ({
 	classnames = [],
 	id,
+	item,
+	productId,
 	children,
 	showVariantsLink = false,
 	handleClickForShowVariantsLink = _.noop(),
 	round = false,
 	showRemove,
-	onRemove,
+	onRemove = _.noop(),
+	onDiscountOptionClick = _.noop(),
+	updateDiscount = _.noop(),
 }) => {
+	const [showProductPicker, toggleShowProductPicker] = useState(false);
 	const [mainClass = ""] = classnames;
 	return (
 		<>
 			<div className={cn(mainClass, "list-row", "row")}>
-				<div className="column large-1 number">{id}.</div>
-				<div className="column large-7 name">
+				<div
+					className={cn("column large-1", "number", {
+						// before: id,
+						after: !id,
+					})}
+				>
+					{id && `${id}.`}
+				</div>
+				<div
+					className={cn(
+						"column",
+						{
+							"large-7": id,
+							"large-6": !id,
+						},
+						"name"
+					)}
+				>
 					<EditInput
 						// value={`${item}-${index + 1}`}
 						placeholderTitle="Select Product"
 						handleClick={() => {
 							console.log("printing..item", id);
+							toggleShowProductPicker(!showProductPicker);
 						}}
 						round={round}
 					/>
+					<ProductPicker
+						showOverlay={showProductPicker}
+						onClose={() => {
+							console.log("printing..item", id);
+							toggleShowProductPicker(!showProductPicker);
+						}}
+					/>
 				</div>
 				<div className="column large-4 actions">
-					<DiscountField round={round} id={`discount_${id}`} />
+					<DiscountField
+						id={`discount_${id}`}
+						showOptions={item.showDiscountOptions}
+						round={round}
+						item={item}
+						productId={productId}
+						onButtonClick={onDiscountOptionClick}
+						onValueChange={updateDiscount}
+					/>
 					{showRemove && (
 						<Button
-							onClick={onRemove}
+							onClick={() => {
+								if (item.id === productId) {
+									onRemove({ itemId: productId });
+								} else {
+									onRemove({
+										itemId: productId,
+										variantId: item.id,
+									});
+								}
+							}}
 							classnames={["remove-product-button"]}
 						>
 							<img alt="cross" src={cross} />
@@ -54,21 +102,25 @@ const ProductItemTemplate = ({
 				</div>
 			</div>
 			{showVariantsLink && (
-				<div
-					className="show-variants-link row"
-					{...createSeparateHandlers(handleClickForShowVariantsLink)}
-				>
-					<span className="text">
-						{children ? "Hide variants" : "Show variants"}
-					</span>
-					<span
-						className={cn({
-							open: children,
-							close: !children,
-						})}
+				<div className="show-variants-link row">
+					<div
+						className="column"
+						{...createSeparateHandlers(
+							handleClickForShowVariantsLink
+						)}
 					>
-						&gt;
-					</span>
+						<span className="text">
+							{children ? "Hide variants" : "Show variants"}
+						</span>
+						<span
+							className={cn({
+								open: children,
+								close: !children,
+							})}
+						>
+							&gt;
+						</span>
+					</div>
 				</div>
 			)}
 			{children}
@@ -76,41 +128,54 @@ const ProductItemTemplate = ({
 	);
 };
 
-const ProductListItem = ({ item, index, showRemove, onRemove }) => {
+const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 	const [showVariants, toggleShowVariants] = useState(false);
-	const { variantList = [1, 2] } = item;
+	const { variants: variantList } = item;
+
 	return (
-		<ProductItemTemplate
-			id={index + 1}
-			classnames={["product-list-row"]}
-			handleClickForShowVariantsLink={() => {
-				toggleShowVariants(!showVariants);
-			}}
-			showVariantsLink
-			showRemove={showRemove}
-			onRemove={onRemove}
-		>
-			{showVariants && (
-				<>
-					{variantList.map((val) => {
-						return (
-							<ProductItemTemplate
-								id={val}
-								classnames={["variant-list-row"]}
-								showRemove={showRemove}
-								onRemove={onRemove}
-								round
-							/>
-						);
-					})}
-				</>
-			)}
-		</ProductItemTemplate>
+		<div className="product-list-item">
+			<ProductItemTemplate
+				id={index + 1}
+				classnames={["product-list-row"]}
+				item={item}
+				productId={item.id}
+				handleClickForShowVariantsLink={() => {
+					toggleShowVariants(!showVariants);
+				}}
+				showVariantsLink={variantList.length > 0}
+				showRemove={showRemove}
+				{...rest}
+			>
+				{showVariants && (
+					<>
+						{variantList.map((variant) => {
+							return (
+								<ProductItemTemplate
+									productId={item.id}
+									classnames={["variant-list-row"]}
+									item={variant}
+									showRemove={variantList.length !== 1}
+									round
+									{...rest}
+								/>
+							);
+						})}
+					</>
+				)}
+			</ProductItemTemplate>
+		</div>
 	);
 };
 
 const ProductList = () => {
-	const [list, updateList] = useState([]);
+	const {
+		state: { productList: list = [] },
+		createNewProduct,
+		removeProduct,
+		onDiscountOptionClick,
+		updateDiscount,
+	} = useProductList();
+
 	return (
 		<div className="product-list-wrapper">
 			<h1 className="product-list-header">Add Products</h1>
@@ -133,10 +198,9 @@ const ProductList = () => {
 									item,
 									index,
 									showRemove: list.length !== 1,
-									onRemove: () => {
-										const [, ...rest] = list;
-										updateList([...rest]);
-									},
+									onRemove: removeProduct,
+									onDiscountOptionClick,
+									updateDiscount,
 								}}
 							/>
 						);
@@ -144,11 +208,7 @@ const ProductList = () => {
 				</div>
 			</div>
 			<div className="actions row">
-				<AddProductButton
-					onClick={() => {
-						updateList([...list, "product"]);
-					}}
-				/>
+				<AddProductButton onClick={createNewProduct} />
 			</div>
 		</div>
 	);
