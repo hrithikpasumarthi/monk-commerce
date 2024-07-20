@@ -8,4 +8,11 @@
 	line-height: 1.25;
 	border: 1px solid black;
 	padding-inline: 28px;
+	letter-spacing: 0.25px;
+}
+
+.button-green {
+	background-color: index.$monk-green;
+	color: index.$pure-white;
+	border-color: index.$monk-green;
 }

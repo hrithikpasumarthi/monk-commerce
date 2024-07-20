@@ -2,7 +2,7 @@ import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { fetchIndexWithId } from "../utils";
 
-const addNewProduct = (state) => {
+const addEmptyProduct = (state) => {
 	console.log("Add New Product");
 	const { productList } = state;
 
@@ -203,7 +203,7 @@ const removeProduct = (state, payload) => {
 };
 
 export default {
-	addNewProduct,
+	addEmptyProduct,
 	updateDiscount,
 	removeProduct,
 	onDiscountButtonClick,

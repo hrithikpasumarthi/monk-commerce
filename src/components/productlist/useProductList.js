@@ -18,7 +18,7 @@ const reducer = (state, action) => {
 				productList: [],
 			};
 		case ACTIONS.CREATE_NEW_PRODUCT:
-			return handlers.addNewProduct(state, payload);
+			return handlers.addEmptyProduct(state, payload);
 		case ACTIONS.UPDATE_DISCOUNT:
 			return handlers.updateDiscount(state, payload);
 		case ACTIONS.REMOVE_PRODUCT_OR_VARIANT:
@@ -39,7 +39,7 @@ const useProductList = () => {
 		});
 	}, []);
 
-	const createNewProduct = (payload) => {
+	const createEmptyProduct = (payload) => {
 		dispatch({
 			payload,
 			type: ACTIONS.CREATE_NEW_PRODUCT,
@@ -69,7 +69,7 @@ const useProductList = () => {
 
 	return {
 		state,
-		createNewProduct,
+		createEmptyProduct,
 		updateDiscount,
 		removeProduct,
 		onDiscountOptionClick,

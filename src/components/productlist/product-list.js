@@ -170,7 +170,7 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 const ProductList = () => {
 	const {
 		state: { productList: list = [] },
-		createNewProduct,
+		createEmptyProduct,
 		removeProduct,
 		onDiscountOptionClick,
 		updateDiscount,
@@ -208,7 +208,7 @@ const ProductList = () => {
 				</div>
 			</div>
 			<div className="actions row">
-				<AddProductButton onClick={createNewProduct} />
+				<AddProductButton onClick={createEmptyProduct} />
 			</div>
 		</div>
 	);

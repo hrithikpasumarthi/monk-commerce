@@ -72,7 +72,7 @@ const DiscountField = ({
 		</div>
 	) : (
 		<Button
-			classnames={[`discount-button`]}
+			classnames={["discount-button", "button-green"]}
 			handleClick={() => {
 				if (item.id === productId) {
 					onButtonClick({ itemId: productId });

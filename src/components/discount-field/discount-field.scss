@@ -1,10 +1,6 @@
 @use "../../styles/index" as index;
 
 .discount-button {
-	background: index.$monk-green;
-	border-color: index.$monk-green;
-	color: index.$pure-white;
-	border-width: 2px;
 	line-height: 20px;
 }
 

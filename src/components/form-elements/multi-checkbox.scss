@@ -1,0 +1,67 @@
+@use "../../styles/index" as index;
+
+.multi-checkbox-wrapper {
+	flex-direction: column;
+	width: 100%;
+
+	.item-checkbox {
+		display: none;
+
+		&:checked {
+			+ .item-label::before {
+				content: url("../../assets/checkbox_tick.png");
+				background-color: index.$monk-green;
+			}
+		}
+	}
+
+	.main-item,
+	.variant-item {
+		height: 59px;
+		width: 95%;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	}
+
+	.main-item {
+		img {
+			width: 36px;
+			height: 36px;
+			border-radius: 4px;
+		}
+	}
+
+	.variant-item {
+		.item-label {
+			padding-inline-start: 40px;
+		}
+
+		.variant-item-label-content {
+			width: calc(100% - 40px);
+			justify-content: space-between;
+			padding-inline-start: 8px;
+		}
+	}
+
+	.item-label {
+		justify-content: flex-start;
+		column-gap: 12px;
+		height: 36px;
+
+		&::before {
+			height: 24px;
+			width: 24px;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			border-radius: 4px;
+			box-sizing: border-box;
+			padding: 4px;
+			content: "";
+			color: index.$pure-white;
+		}
+
+		&.hyphen-before::before {
+			content: "\2212";
+			font-weight: 600;
+			background-color: index.$monk-green;
+		}
+	}
+}

@@ -1,7 +1,7 @@
 .product-picker {
 	border-radius: 4px;
 
-	.row {
+	> .row {
 		height: 48px;
 		width: 100%;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -22,7 +22,21 @@
 	}
 
 	.product-menu {
+		// height: calc(100% - 144px);
 		flex: 9;
+		align-content: start;
+		overflow-y: scroll;
+
+		&.row {
+			padding-inline: 0;
+		}
+
+		.main-item,
+		.variant-item {
+			margin: 0;
+			padding: 12px 25px;
+			width: 100%;
+		}
 	}
 
 	.actions {

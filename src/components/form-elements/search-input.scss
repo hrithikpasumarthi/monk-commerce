@@ -1,0 +1,21 @@
+.search-box-wrapper {
+	width: 100%;
+	padding-inline: 2.5%;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+
+	.search-icon {
+		padding-inline-end: 6px;
+	}
+
+	.search-input {
+		width: calc(100% - 23px);
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1.5;
+		color: rgba(0, 0, 0, 0.5);
+	}
+
+	&:has(.search-input:focus) {
+		border: 1px solid rgba(0, 0, 0, 0.7);
+	}
+}
