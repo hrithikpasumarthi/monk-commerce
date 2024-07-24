@@ -5,7 +5,7 @@ import createSeparateHandlers from "../utils";
 
 import "./number-input.scss";
 
-export default ({
+const NumberInput = ({
 	classnames,
 	value,
 	defaultValue,
@@ -23,3 +23,5 @@ export default ({
 		</div>
 	);
 };
+
+export default NumberInput;

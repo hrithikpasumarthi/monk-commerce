@@ -4,7 +4,7 @@ import cn from "classnames";
 import "./select-dropdown.scss";
 import createSeparateHandlers from "../utils";
 
-export default ({
+const SelectDropDown = ({
 	id,
 	selectedValue,
 	options,
@@ -58,3 +58,5 @@ export default ({
 		</div>
 	);
 };
+
+export default SelectDropDown;

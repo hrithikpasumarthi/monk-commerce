@@ -7,6 +7,7 @@ const ACTIONS = {
 	REMOVE_PRODUCT_OR_VARIANT: "remove_product_or_variant",
 	UPDATE_DISCOUNT: "update_discount",
 	OPEN_DISCOUNT_MENU: "open_discount_menu",
+	UPDATE_PRODUCT_ITEM: "update_product",
 };
 
 const reducer = (state, action) => {
@@ -19,6 +20,8 @@ const reducer = (state, action) => {
 			};
 		case ACTIONS.CREATE_NEW_PRODUCT:
 			return handlers.addEmptyProduct(state, payload);
+		case ACTIONS.UPDATE_PRODUCT_ITEM:
+			return handlers.handleProductUpdate(state, payload);
 		case ACTIONS.UPDATE_DISCOUNT:
 			return handlers.updateDiscount(state, payload);
 		case ACTIONS.REMOVE_PRODUCT_OR_VARIANT:
@@ -46,6 +49,13 @@ const useProductList = () => {
 		});
 	};
 
+	const updateProductItem = (payload) => {
+		dispatch({
+			payload,
+			type: ACTIONS.UPDATE_PRODUCT_ITEM,
+		});
+	};
+
 	const updateDiscount = (payload) => {
 		dispatch({
 			payload,
@@ -70,6 +80,7 @@ const useProductList = () => {
 	return {
 		state,
 		createEmptyProduct,
+		updateProductItem,
 		updateDiscount,
 		removeProduct,
 		onDiscountOptionClick,

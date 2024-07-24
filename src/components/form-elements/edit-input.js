@@ -6,7 +6,7 @@ import editPen from "../../assets/edit_pen.png";
 
 import "./edit-input.scss";
 
-export default ({
+const EditInput = ({
 	classnames,
 	value,
 	placeholderTitle = "",
@@ -34,3 +34,5 @@ export default ({
 		</div>
 	);
 };
+
+export default EditInput;

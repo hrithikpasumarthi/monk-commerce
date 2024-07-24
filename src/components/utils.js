@@ -6,16 +6,16 @@ const createSeparateHandlers = (handler) => {
 	};
 };
 
-export const fetchIndexWithId = (list, id) => {
+export const fetchIndexWithId = (list, id, key = "id") => {
 	// eslint-disable-next-line
 	let pos = -1;
 
 	list.find((x, index) => {
-		if (x.id === id) {
+		if (x[key] === id) {
 			pos = index;
 		}
 
-		return x.id === id;
+		return x[key] === id;
 	});
 
 	return pos;

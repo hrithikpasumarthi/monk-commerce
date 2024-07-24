@@ -7,7 +7,7 @@ const addEmptyProduct = (state) => {
 	const { productList } = state;
 
 	const newProductItem = {
-		id: uuidv4(),
+		productId: uuidv4(),
 		title: undefined,
 		variants: [
 			{
@@ -41,6 +41,19 @@ const addEmptyProduct = (state) => {
 };
 
 /**
+ * Method to handle product list update from product picker
+ * @param {*} state
+ * @param {*} payload
+ * @returns updated State
+ */
+const handleProductUpdate = (state, payload) => {
+	// TODO: pending merging the selection data into state
+	console.log(state, payload);
+
+	return state;
+};
+
+/**
  *
  * @param {state} state
  * @param {Object} payload
@@ -50,7 +63,7 @@ const addEmptyProduct = (state) => {
 const onDiscountButtonClick = (state, payload) => {
 	const { productList } = state;
 	const { itemId, variantId = null } = payload;
-	const productIndex = fetchIndexWithId(productList, itemId);
+	const productIndex = fetchIndexWithId(productList, itemId, "productId");
 	const variantList = _.get(productList[productIndex], "variants", []);
 
 	if (variantId) {
@@ -111,7 +124,7 @@ const updateDiscount = (state, payload) => {
 		discountType = undefined,
 		discountValue = 0,
 	} = payload;
-	const productIndex = fetchIndexWithId(productList, itemId);
+	const productIndex = fetchIndexWithId(productList, itemId, "productId");
 	const variantList = _.get(productList[productIndex], "variants", []);
 
 	if (variantId) {
@@ -173,7 +186,7 @@ const updateDiscount = (state, payload) => {
 const removeProduct = (state, payload) => {
 	const { productList } = state;
 	const { itemId, variantId = null } = payload;
-	const productIndex = fetchIndexWithId(productList, itemId);
+	const productIndex = fetchIndexWithId(productList, itemId, "productId");
 
 	if (variantId) {
 		const variantList = _.get(productList[productIndex], "variants", []);
@@ -204,6 +217,7 @@ const removeProduct = (state, payload) => {
 
 export default {
 	addEmptyProduct,
+	handleProductUpdate,
 	updateDiscount,
 	removeProduct,
 	onDiscountButtonClick,

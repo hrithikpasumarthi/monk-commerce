@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import _ from "lodash";
 import cn from "classnames";
 import createSeparateHandlers from "../utils";
@@ -31,6 +31,7 @@ const ProductItemTemplate = ({
 	onRemove = _.noop(),
 	onDiscountOptionClick = _.noop(),
 	updateDiscount = _.noop(),
+	updateProductItem = _.noop(),
 }) => {
 	const [showProductPicker, toggleShowProductPicker] = useState(false);
 	const [mainClass = ""] = classnames;
@@ -64,17 +65,21 @@ const ProductItemTemplate = ({
 						}}
 						round={round}
 					/>
-					<ProductPicker
-						showOverlay={showProductPicker}
-						onClose={() => {
-							console.log("printing..item", id);
-							toggleShowProductPicker(!showProductPicker);
-						}}
-					/>
+					{showProductPicker && (
+						<ProductPicker
+							item={item}
+							showOverlay={showProductPicker}
+							onClose={() => {
+								console.log("printing..item", id);
+								toggleShowProductPicker(!showProductPicker);
+							}}
+							onProductAddition={updateProductItem}
+						/>
+					)}
 				</div>
 				<div className="column large-4 actions">
 					<DiscountField
-						id={`discount_${id}`}
+						id={`discount_${item.productId || item.id}`}
 						showOptions={item.showDiscountOptions}
 						round={round}
 						item={item}
@@ -85,7 +90,7 @@ const ProductItemTemplate = ({
 					{showRemove && (
 						<Button
 							onClick={() => {
-								if (item.id === productId) {
+								if (item.productId === productId) {
 									onRemove({ itemId: productId });
 								} else {
 									onRemove({
@@ -138,7 +143,7 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 				id={index + 1}
 				classnames={["product-list-row"]}
 				item={item}
-				productId={item.id}
+				productId={item.productId}
 				handleClickForShowVariantsLink={() => {
 					toggleShowVariants(!showVariants);
 				}}
@@ -146,22 +151,21 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 				showRemove={showRemove}
 				{...rest}
 			>
-				{showVariants && (
-					<>
-						{variantList.map((variant) => {
-							return (
+				{showVariants &&
+					variantList.map((variant) => {
+						return (
+							<Fragment key={variant.id}>
 								<ProductItemTemplate
-									productId={item.id}
+									productId={item.productId}
 									classnames={["variant-list-row"]}
 									item={variant}
 									showRemove={variantList.length !== 1}
 									round
 									{...rest}
 								/>
-							);
-						})}
-					</>
-				)}
+							</Fragment>
+						);
+					})}
 			</ProductItemTemplate>
 		</div>
 	);
@@ -169,18 +173,20 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 
 const ProductList = () => {
 	const {
-		state: { productList: list = [] },
+		state = {},
 		createEmptyProduct,
+		updateProductItem,
 		removeProduct,
 		onDiscountOptionClick,
 		updateDiscount,
 	} = useProductList();
 
+	const list = _.get(state, "productList", []);
+
 	return (
 		<div className="product-list-wrapper">
 			<h1 className="product-list-header">Add Products</h1>
 			<div className="product-list">
-				{/* Render the list */}
 				<div className="header row">
 					<div className="column large-1"></div>
 					<div className="column large-7">
@@ -193,16 +199,19 @@ const ProductList = () => {
 				<div className="body">
 					{list.map((item, index) => {
 						return (
-							<ProductListItem
-								{...{
-									item,
-									index,
-									showRemove: list.length !== 1,
-									onRemove: removeProduct,
-									onDiscountOptionClick,
-									updateDiscount,
-								}}
-							/>
+							<Fragment key={index}>
+								<ProductListItem
+									{...{
+										item,
+										index,
+										showRemove: list.length !== 1,
+										onRemove: removeProduct,
+										onDiscountOptionClick,
+										updateDiscount,
+										updateProductItem,
+									}}
+								/>
+							</Fragment>
 						);
 					})}
 				</div>

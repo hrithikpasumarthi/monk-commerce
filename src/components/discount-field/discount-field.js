@@ -23,7 +23,7 @@ const DiscountField = ({
 					},
 				]}
 				handleClick={(ev) => {
-					if (item.id === productId) {
+					if (item.productId === productId) {
 						onValueChange({
 							itemId: productId,
 							discountType: item.discount?.type,
@@ -53,7 +53,7 @@ const DiscountField = ({
 					{ text: "Flat Off", value: "flat" },
 				]}
 				handleClick={(value) => {
-					if (item.id === productId) {
+					if (item.productId === productId) {
 						onValueChange({
 							itemId: productId,
 							discountType: value,

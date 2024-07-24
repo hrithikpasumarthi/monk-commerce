@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import _ from "lodash";
 import cn from "classnames";
-import createSeparateHandlers from "../utils";
+import createSeparateHandlers, { fetchIndexWithId } from "../utils";
 
 import "./multi-checkbox.scss";
 
@@ -39,10 +39,12 @@ const CheckBox = React.forwardRef(
 	}
 );
 
-export default ({
+const MultiCheckBox = ({
 	data,
-	// onCheckAll = _.noop(),
-	// onSingleVariantCheck = _.noop(),
+	prefillData,
+	shouldPrefillData = false,
+	onSelectMain = _.noop(),
+	onSelectVariant = _.noop(),
 }) => {
 	const { title, id, variants = [], image = {} } = data;
 	const { src } = image;
@@ -54,28 +56,35 @@ export default ({
 
 	const handleMainClick = () => {
 		setMainCheckedState(!mainCheckedState);
-
 		setCSForVariants(new Array(variants.length).fill(!mainCheckedState));
+		onSelectMain(data, !mainCheckedState);
 	};
 
-	const handleVariantClick = (position) => {
-		const newStates = csForVariants.map((item, index) =>
-			index === position ? !item : item
-		);
+	const handleVariantClick = (position, variantId) => {
+		let updatedState;
+
+		const newStates = csForVariants.map((item, index) => {
+			if (index === position) updatedState = !item;
+
+			return index === position ? !item : item;
+		});
 
 		setCSForVariants(newStates);
+		onSelectVariant(data, variantId, updatedState);
 	};
 
 	useEffect(() => {
-		// if (!onlyFewChecked) {
-		// 	setCSForVariants(new Array(variants.length).fill(mainCheckedState));
-		// toggleOnlyFewChecked(false);
-		// }
-		// toggleOnlyFewChecked(false);
-		// if (onlyFewChecked) {
-		// 	toggleOnlyFewChecked()
-		// }
-	}, [mainCheckedState]);
+		if (shouldPrefillData && prefillData.id === data.id) {
+			const currVariantCSList = [...csForVariants];
+
+			prefillData.variants.forEach((variant) => {
+				const index = fetchIndexWithId(variants, variant.id);
+				if (index > -1) currVariantCSList[index] = true;
+			});
+
+			setCSForVariants(currVariantCSList);
+		}
+	}, []);
 
 	useEffect(() => {
 		const isAnyVariantChecked = csForVariants.reduce((prev, curr) => {
@@ -123,24 +132,30 @@ export default ({
 			/>
 			{variants.map((variant, index) => {
 				return (
-					<CheckBox
-						id={`variant_id_${id}_${variant.id}`}
-						wrapperClass="variant-item"
-						handleClick={() => handleVariantClick(index)}
-						labelContent={
-							<span className="variant-item-label-content row">
-								<span className="label-title">
-									{variant.title}
+					<Fragment key={index}>
+						<CheckBox
+							id={`variant_id_${id}_${variant.id}`}
+							wrapperClass="variant-item"
+							handleClick={() =>
+								handleVariantClick(index, variant.id)
+							}
+							labelContent={
+								<span className="variant-item-label-content row">
+									<span className="label-title">
+										{variant.title}
+									</span>
+									<span className="label-price">
+										${variant.price}
+									</span>
 								</span>
-								<span className="label-price">
-									${variant.price}
-								</span>
-							</span>
-						}
-						checked={csForVariants[index]}
-					/>
+							}
+							checked={csForVariants[index]}
+						/>
+					</Fragment>
 				);
 			})}
 		</div>
 	);
 };
+
+export default MultiCheckBox;

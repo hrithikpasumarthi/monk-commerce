@@ -1,3 +1,5 @@
+@use "../../styles/index" as index;
+
 .product-picker {
 	border-radius: 4px;
 
@@ -21,11 +23,18 @@
 		padding-block: 8px;
 	}
 
+	.spin-wrapper {
+		flex: 9;
+	}
+
 	.product-menu {
 		// height: calc(100% - 144px);
 		flex: 9;
-		align-content: start;
-		overflow-y: scroll;
+
+		&:has(.main-item) {
+			align-content: start;
+			overflow-y: scroll;
+		}
 
 		&.row {
 			padding-inline: 0;
@@ -45,4 +54,24 @@
 			justify-content: flex-end;
 		}
 	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.spinner {
+	box-sizing: content-box;
+	border: 2px solid index.$monk-green;
+	border-bottom: none;
+	border-right: none;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	animation: spin 500ms linear infinite;
 }

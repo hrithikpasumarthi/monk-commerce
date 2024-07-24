@@ -5,7 +5,7 @@ import createSeparateHandlers from "../utils";
 import searchGlass from "../../assets/search_glass.png";
 import "./search-input.scss";
 
-export default ({ handleClick = _.noop() }) => {
+const SearchTextInput = ({ handleClick = _.noop() }) => {
 	return (
 		<div className="search-box-wrapper row">
 			<img className="search-icon" alt="search glass" src={searchGlass} />
@@ -19,3 +19,5 @@ export default ({ handleClick = _.noop() }) => {
 		</div>
 	);
 };
+
+export default SearchTextInput;

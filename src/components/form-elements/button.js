@@ -4,7 +4,7 @@ import createSeparateHandlers from "../utils";
 
 import "./button.scss";
 
-export default ({ children, classnames, handleClick, ...rest }) => {
+const Button = ({ children, classnames, handleClick, ...rest }) => {
 	return (
 		<button
 			type="button"
@@ -16,3 +16,5 @@ export default ({ children, classnames, handleClick, ...rest }) => {
 		</button>
 	);
 };
+
+export default Button;
