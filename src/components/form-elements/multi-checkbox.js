@@ -45,6 +45,8 @@ const MultiCheckBox = ({
 	shouldPrefillData = false,
 	onSelectMain = _.noop(),
 	onSelectVariant = _.noop(),
+	MainLabel = "div",
+	VariantLabel = "div",
 }) => {
 	const { title, id, variants = [], image = {} } = data;
 	const { src } = image;
@@ -121,12 +123,7 @@ const MultiCheckBox = ({
 				id={`product_id_${id}`}
 				wrapperClass="main-item"
 				handleClick={handleMainClick}
-				labelContent={
-					<>
-						<img alt={title} src={src} />
-						<span>{title}</span>
-					</>
-				}
+				labelContent={<MainLabel src={src} title={title} />}
 				showHyphen={onlyFewChecked}
 				checked={mainCheckedState}
 			/>
@@ -139,16 +136,7 @@ const MultiCheckBox = ({
 							handleClick={() =>
 								handleVariantClick(index, variant.id)
 							}
-							labelContent={
-								<span className="variant-item-label-content row">
-									<span className="label-title">
-										{variant.title}
-									</span>
-									<span className="label-price">
-										${variant.price}
-									</span>
-								</span>
-							}
+							labelContent={<VariantLabel variant={variant} />}
 							checked={csForVariants[index]}
 						/>
 					</Fragment>

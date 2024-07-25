@@ -1,5 +1,6 @@
 @use "./index" as index;
 @use "sass:math";
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 
 * {
 	margin: 0;
@@ -13,16 +14,12 @@ body {
 	padding: 0;
 	width: 100%;
 	height: -webkit-fill-available;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Source Sans 3", Helvetica, sans-serif;
 	overflow: hidden;
 }
 
 ::-webkit-scrollbar {
 	width: 5px;
-
-	&:focus {
-		width: 8px;
-	}
 }
 
 /* Track */
@@ -52,10 +49,20 @@ li {
 }
 
 #root {
-	width: 980px;
 	height: inherit;
+	overflow: none;
+	position: relative;
+}
+
+#container {
+	width: 980px;
+	height: calc(100% - 48px);
 	overflow: auto;
 	position: relative;
+
+	&::-webkit-scrollbar {
+		width: 0;
+	}
 
 	@include index.viewport("small") {
 		width: 90%;
@@ -104,11 +111,11 @@ button {
 	align-items: center;
 	flex-wrap: wrap;
 
-	@include index.viewport("small") {
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-	}
+	// @include index.viewport("small") {
+	// 	flex-direction: column;
+	// 	justify-content: space-between;
+	// 	align-items: center;
+	// }
 }
 
 .column {

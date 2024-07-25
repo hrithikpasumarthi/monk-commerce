@@ -1,6 +1,6 @@
 import React from "react";
-import cn from "classnames";
 import _ from "lodash";
+import cn from "classnames";
 import createSeparateHandlers from "../utils";
 import editPen from "../../assets/edit_pen.png";
 
@@ -8,7 +8,7 @@ import "./edit-input.scss";
 
 const EditInput = ({
 	classnames,
-	value,
+	value = "",
 	placeholderTitle = "",
 	handleClick = _.noop(),
 	round = false,
@@ -29,7 +29,6 @@ const EditInput = ({
 				value={value}
 				readOnly
 			/>
-			{/* TODO: svg icon */}
 			<img alt="edit-pen" src={editPen} />
 		</div>
 	);

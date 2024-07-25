@@ -14,6 +14,33 @@ const Spinner = () => {
 	);
 };
 
+const LabelMain = ({ src, title }) => {
+	return (
+		<>
+			<picture>
+				<source srcSet={src} />
+				{/* fallback image */}
+				<img
+					width="36"
+					height="36"
+					src="https://img.icons8.com/isometric/36/box.png"
+					alt={title}
+				/>
+			</picture>
+			<span>{title}</span>
+		</>
+	);
+};
+
+const LabelVariant = ({ variant = {} }) => {
+	return (
+		<span className="variant-item-label-content row">
+			<span className="label-title">{variant.title}</span>
+			<span className="label-price">${variant.price}</span>
+		</span>
+	);
+};
+
 const ProductPicker = ({
 	item,
 	showOverlay = false,
@@ -34,19 +61,8 @@ const ProductPicker = ({
 		fetchSearchData,
 		onSelectMain,
 		onSelectVariant,
-	} = useProductPicker();
-
-	const handleScroll = (ev) => {
-		const container = ev.target;
-
-		if (
-			container.scrollHeight - Math.round(container.scrollTop) ===
-			container.clientHeight
-		) {
-			console.log("Reached the bottom!");
-			setDisplayCount(Math.min(displayCount + 10, data.length));
-		}
-	};
+		handleScroll,
+	} = useProductPicker(item);
 
 	useEffect(() => {
 		setData([]);
@@ -115,6 +131,8 @@ const ProductPicker = ({
 											}
 											onSelectMain={onSelectMain}
 											onSelectVariant={onSelectVariant}
+											MainLabel={LabelMain}
+											VariantLabel={LabelVariant}
 										/>
 									</Fragment>
 								);
@@ -129,7 +147,11 @@ const ProductPicker = ({
 				</div>
 			)}
 			<div className="actions row">
-				<div className="column large-7">1 product selected</div>
+				<div className="column large-7">
+					{selection.length === 1
+						? `${selection.length} product selected`
+						: `${selection.length} products selected`}
+				</div>
 				<div className="column options large-5">
 					<Button classnames={["cancel-btn"]} handleClick={onClose}>
 						Cancel
@@ -137,7 +159,10 @@ const ProductPicker = ({
 					<Button
 						classnames={["add-products-btn", "button-green"]}
 						handleClick={() => {
-							onProductAddition(selection);
+							onProductAddition({
+								selection,
+								productId: item.productId,
+							});
 							onClose();
 						}}
 					>

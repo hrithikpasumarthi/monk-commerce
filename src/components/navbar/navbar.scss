@@ -1,0 +1,17 @@
+.navbar {
+	height: 48px;
+	width: 100%;
+	position: sticky;
+	top: 0;
+	border-bottom: 1px solid rgba(209, 209, 209, 1);
+	padding-inline-start: 21px;
+	justify-content: flex-start;
+
+	.title {
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.5;
+		color: rgba(126, 129, 133, 1);
+		padding-inline-start: 7px;
+	}
+}

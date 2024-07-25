@@ -9,24 +9,7 @@ const addEmptyProduct = (state) => {
 	const newProductItem = {
 		productId: uuidv4(),
 		title: undefined,
-		variants: [
-			{
-				id: 1,
-				showDiscountOptions: false,
-				discount: {
-					value: undefined,
-					type: "percentage",
-				},
-			},
-			{
-				id: 2,
-				showDiscountOptions: false,
-				discount: {
-					value: undefined,
-					type: "percentage",
-				},
-			},
-		],
+		variants: [],
 		image: undefined,
 		showDiscountOptions: false,
 		discount: {
@@ -50,7 +33,45 @@ const handleProductUpdate = (state, payload) => {
 	// TODO: pending merging the selection data into state
 	console.log(state, payload);
 
-	return state;
+	const { productList } = state;
+	const { productId, selection } = payload;
+	const productIndex = fetchIndexWithId(productList, productId, "productId");
+
+	const createNewProduct = (data) => {
+		return {
+			productId: uuidv4(),
+			title: data.title,
+			id: data.id,
+			variants: [
+				...data.variants.map((variant) => {
+					return {
+						id: variant.id,
+						title: variant.title,
+						price: variant.price,
+						showDiscountOptions: false,
+						discount: {
+							value: undefined,
+							type: "percentage",
+						},
+					};
+				}),
+			],
+			image: data.image,
+			showDiscountOptions: false,
+			discount: {
+				value: undefined,
+				type: "percentage",
+			},
+		};
+	};
+
+	return {
+		productList: [
+			...productList.slice(0, productIndex),
+			...selection.map((item) => createNewProduct(item)),
+			...productList.slice(productIndex + 1),
+		],
+	};
 };
 
 /**

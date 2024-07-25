@@ -1,12 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchIndexWithId } from "../utils";
 
-export default () => {
+export default (prevSelection) => {
 	const [searchText, setSearchText] = useState("");
 	const [isDataFetching, setIsDataFetching] = useState(false);
 	const [data, setData] = useState([]);
 	const [displayCount, setDisplayCount] = useState(0);
 	const [selection, setSelection] = useState([]);
+
+	useEffect(() => {
+		if (prevSelection.variants.length > 0) {
+			setSelection([prevSelection]);
+		}
+	}, []);
+
+	const handleScroll = (ev) => {
+		const container = ev.target;
+
+		if (
+			container.scrollHeight - Math.round(container.scrollTop) ===
+			container.clientHeight
+		) {
+			console.log("Reached the bottom!");
+			setDisplayCount(Math.min(displayCount + 10, data.length));
+		}
+	};
 
 	const fetchSearchData = (search, abortSignal) => {
 		const API_KEY = "72njgfa948d9aS7gs5";
@@ -136,5 +154,6 @@ export default () => {
 		fetchSearchData,
 		onSelectMain,
 		onSelectVariant,
+		handleScroll,
 	};
 };

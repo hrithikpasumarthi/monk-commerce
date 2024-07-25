@@ -22,6 +22,7 @@ const ProductItemTemplate = ({
 	classnames = [],
 	id,
 	item,
+	fullData,
 	productId,
 	children,
 	showVariantsLink = false,
@@ -57,7 +58,7 @@ const ProductItemTemplate = ({
 					)}
 				>
 					<EditInput
-						// value={`${item}-${index + 1}`}
+						value={item.title}
 						placeholderTitle="Select Product"
 						handleClick={() => {
 							console.log("printing..item", id);
@@ -67,7 +68,7 @@ const ProductItemTemplate = ({
 					/>
 					{showProductPicker && (
 						<ProductPicker
-							item={item}
+							item={fullData}
 							showOverlay={showProductPicker}
 							onClose={() => {
 								console.log("printing..item", id);
@@ -143,6 +144,7 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 				id={index + 1}
 				classnames={["product-list-row"]}
 				item={item}
+				fullData={item}
 				productId={item.productId}
 				handleClickForShowVariantsLink={() => {
 					toggleShowVariants(!showVariants);
@@ -159,6 +161,7 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 									productId={item.productId}
 									classnames={["variant-list-row"]}
 									item={variant}
+									fullData={item}
 									showRemove={variantList.length !== 1}
 									round
 									{...rest}
