@@ -1,6 +1,6 @@
 {
 	"name": "create-react-app-without-cra",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Creative task by Monk Commerce",
 	"private": true,
 	"scripts": {

@@ -35,7 +35,7 @@
 		padding-block: 16px;
 
 		.product-list-item {
-			border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			border-bottom: 1px solid index.$border-gray;
 			margin-block-end: 16px;
 
 			&:last-child {
@@ -45,7 +45,7 @@
 		}
 
 		.list-row {
-			color: rgba(0, 0, 0, 0.8);
+			color: index.$text-gray;
 
 			&.product-list-row {
 				padding-block-end: 4px;
@@ -64,7 +64,7 @@
 				justify-content: space-evenly;
 
 				&::before {
-					content: url("../../assets/group_anchor.png");
+					content: url("../../assets/images/group_anchor.png");
 				}
 
 				&.after {
@@ -75,7 +75,7 @@
 					}
 
 					&::after {
-						content: url("../../assets/group_anchor.png");
+						content: url("../../assets/images/group_anchor.png");
 					}
 				}
 			}
@@ -103,7 +103,7 @@
 
 .show-variants-link {
 	justify-content: flex-end;
-	color: rgba(0, 110, 255, 1);
+	color: index.$link-text;
 	padding-block-end: 16px;
 
 	.text {

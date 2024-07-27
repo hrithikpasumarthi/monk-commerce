@@ -4,6 +4,7 @@ import useProductPicker from "./useProductPicker";
 import OverlayLoader from "../overlay/index";
 import { Button, MultiCheckBox, SearchTextInput } from "../form-elements";
 
+import properties from "../../assets/properties.json";
 import "./product-picker.scss";
 
 const Spinner = () => {
@@ -65,19 +66,16 @@ const ProductPicker = ({
 	} = useProductPicker(item);
 
 	useEffect(() => {
-		setData([]);
-		setIsDataFetching(true);
-
-		// Create an instance.
 		const controller = new AbortController();
 		// eslint-disable-next-line
 		const signal = controller.signal;
 
+		setData([]);
+		setIsDataFetching(true);
+
 		const fetchTimeout = setTimeout(() => {
 			fetchSearchData(searchText, signal).then((res) => {
-				console.log(res);
 				setIsDataFetching(false);
-				// setData((prev) => [...prev, ...res]);
 				if (!_.isNull(res)) setData(res);
 				else setData([]);
 
@@ -91,10 +89,6 @@ const ProductPicker = ({
 		};
 	}, [searchText]);
 
-	useEffect(() => {
-		console.log("selection", selection);
-	}, [selection]);
-
 	return (
 		<OverlayLoader
 			show={showOverlay}
@@ -102,7 +96,9 @@ const ProductPicker = ({
 			onClose={onClose}
 			{...rest}
 		>
-			<div className="title row">Select Products</div>
+			<div className="title row">
+				{_.get(properties, "selectProducts")}
+			</div>
 			<div className="search-bar row">
 				<SearchTextInput
 					handleClick={(ev) => {
@@ -114,34 +110,26 @@ const ProductPicker = ({
 			{!isDataFetching && (
 				<div className="product-menu row" onScroll={handleScroll}>
 					{data?.length > 0 ? (
-						<>
-							{/* {item && (
-								<Fragment key={item.id}>
-									<MultiCheckBox data={item} prefillData />
+						data.slice(0, displayCount).map((product) => {
+							return (
+								<Fragment key={product.id}>
+									<MultiCheckBox
+										data={product}
+										prefillData={item}
+										shouldPrefillData={
+											item.id === product.id
+										}
+										onSelectMain={onSelectMain}
+										onSelectVariant={onSelectVariant}
+										MainLabel={LabelMain}
+										VariantLabel={LabelVariant}
+									/>
 								</Fragment>
-							)} */}
-							{data.slice(0, displayCount).map((product) => {
-								return (
-									<Fragment key={product.id}>
-										<MultiCheckBox
-											data={product}
-											prefillData={item}
-											shouldPrefillData={
-												item.id === product.id
-											}
-											onSelectMain={onSelectMain}
-											onSelectVariant={onSelectVariant}
-											MainLabel={LabelMain}
-											VariantLabel={LabelVariant}
-										/>
-									</Fragment>
-								);
-							})}
-						</>
+							);
+						})
 					) : (
 						<div className="search-result-text">
-							No results found against your search! Please try
-							again!
+							{_.get(properties, "searchResultEmpty")}
 						</div>
 					)}
 				</div>
@@ -149,12 +137,18 @@ const ProductPicker = ({
 			<div className="actions row">
 				<div className="column large-7">
 					{selection.length === 1
-						? `${selection.length} product selected`
-						: `${selection.length} products selected`}
+						? `${selection.length} ${_.get(
+								properties,
+								"productSelected"
+						  )}`
+						: `${selection.length} ${_.get(
+								properties,
+								"productsSelected"
+						  )}`}
 				</div>
 				<div className="column options large-5">
 					<Button classnames={["cancel-btn"]} handleClick={onClose}>
-						Cancel
+						{_.get(properties, "cancel")}
 					</Button>
 					<Button
 						classnames={["add-products-btn", "button-green"]}
@@ -166,7 +160,7 @@ const ProductPicker = ({
 							onClose();
 						}}
 					>
-						Add
+						{_.get(properties, "add")}
 					</Button>
 				</div>
 			</div>

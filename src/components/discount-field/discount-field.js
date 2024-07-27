@@ -1,6 +1,8 @@
 import React from "react";
+import _ from "lodash";
 import { Button, NumberInput, SelectDropDown } from "../form-elements";
 
+import properties from "../../assets/properties.json";
 import "./discount-field.scss";
 
 const DiscountField = ({
@@ -81,7 +83,7 @@ const DiscountField = ({
 				}
 			}}
 		>
-			Add Discount
+			{_.get(properties, "addDiscount")}
 		</Button>
 	);
 };

@@ -2,8 +2,12 @@ import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { fetchIndexWithId } from "../utils";
 
+/**
+ * Method to add a new empty product to product list.
+ * @param {*} state
+ * @returns state with additional empty product
+ */
 const addEmptyProduct = (state) => {
-	console.log("Add New Product");
 	const { productList } = state;
 
 	const newProductItem = {
@@ -24,15 +28,12 @@ const addEmptyProduct = (state) => {
 };
 
 /**
- * Method to handle product list update from product picker
+ * Method to handle product list update from product picker.
  * @param {*} state
  * @param {*} payload
  * @returns updated State
  */
 const handleProductUpdate = (state, payload) => {
-	// TODO: pending merging the selection data into state
-	console.log(state, payload);
-
 	const { productList } = state;
 	const { productId, selection } = payload;
 	const productIndex = fetchIndexWithId(productList, productId, "productId");
@@ -75,7 +76,7 @@ const handleProductUpdate = (state, payload) => {
 };
 
 /**
- *
+ * Method to control UI states to display discount options.
  * @param {state} state
  * @param {Object} payload
  *      - itemId: productId
@@ -128,7 +129,7 @@ const onDiscountButtonClick = (state, payload) => {
 };
 
 /**
- *
+ * Method to update discount input for each product item in the list.
  * @param {state} state
  * @param {Object} payload
  *      - itemId: productId
@@ -137,7 +138,6 @@ const onDiscountButtonClick = (state, payload) => {
  * 	    - discountValue: discount value
  */
 const updateDiscount = (state, payload) => {
-	console.log("Add Product Discount");
 	const { productList } = state;
 	const {
 		itemId,
@@ -198,7 +198,7 @@ const updateDiscount = (state, payload) => {
 };
 
 /**
- *
+ * Method to handle removing of a product from the list.
  * @param {state} state
  * @param {Object} payload
  *      - itemId: productId

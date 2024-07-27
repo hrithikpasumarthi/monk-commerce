@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import createSeparateHandlers from "../utils";
 
-import overlayCross from "../../assets/overlay_cross.png";
+import overlayCross from "../../assets/images/overlay_cross.png";
 
 const Overlay = ({ children, onClose, classnames, ...rest }) => {
 	return (

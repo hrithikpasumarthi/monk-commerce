@@ -9,7 +9,7 @@
 
 		&:checked {
 			+ .item-label::before {
-				content: url("../../assets/checkbox_tick.png");
+				content: url("../../assets/images/checkbox_tick.png");
 				background-color: index.$monk-green;
 			}
 		}
@@ -19,7 +19,7 @@
 	.variant-item {
 		height: 59px;
 		width: 95%;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: 1px solid index.$border-gray;
 	}
 
 	.main-item {
@@ -50,7 +50,7 @@
 		&::before {
 			height: 24px;
 			width: 24px;
-			border: 1px solid rgba(0, 0, 0, 0.8);
+			border: 1px solid index.$text-gray;
 			border-radius: 4px;
 			box-sizing: border-box;
 			padding: 4px;

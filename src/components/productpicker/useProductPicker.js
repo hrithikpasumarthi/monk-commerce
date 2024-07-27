@@ -21,7 +21,6 @@ export default (prevSelection) => {
 			container.scrollHeight - Math.round(container.scrollTop) ===
 			container.clientHeight
 		) {
-			console.log("Reached the bottom!");
 			setDisplayCount(Math.min(displayCount + 10, data.length));
 		}
 	};
@@ -30,11 +29,16 @@ export default (prevSelection) => {
 		const API_KEY = "72njgfa948d9aS7gs5";
 
 		return fetch(
-			`https://cors-anywhere.herokuapp.com/http://stageapi.monkcommerce.app/task/products/search?search=${search}&page=1&limit=`,
+			// Mitigating CORS error using proxy server
+			"https://cors-anywhere.herokuapp.com/http://stageapi.monkcommerce.app/task/products/search",
 			{
 				headers: {
 					"x-api-key": API_KEY,
 					"Content-Type": "text/plain",
+				},
+				params: {
+					search,
+					page: 1,
 				},
 				signal: abortSignal,
 			}

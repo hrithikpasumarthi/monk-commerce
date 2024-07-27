@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import createSeparateHandlers from "../utils";
 
-import searchGlass from "../../assets/search_glass.png";
+import searchGlass from "../../assets/images/search_glass.png";
 import "./search-input.scss";
 
 const SearchTextInput = ({ handleClick = _.noop() }) => {

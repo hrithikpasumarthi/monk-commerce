@@ -1,7 +1,9 @@
+@use "../../styles/index" as index;
+
 .search-box-wrapper {
 	width: 100%;
 	padding-inline: 2.5%;
-	border: 1px solid rgba(0, 0, 0, 0.1);
+	border: 1px solid index.$border-gray;
 	border-radius: 4px;
 
 	.search-icon {
@@ -13,10 +15,10 @@
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.5;
-		color: rgba(0, 0, 0, 0.5);
+		color: index.$search-text-gray;
 	}
 
 	&:has(.search-input:focus) {
-		border: 1px solid rgba(0, 0, 0, 0.7);
+		border: 1px solid index.$text-gray;
 	}
 }

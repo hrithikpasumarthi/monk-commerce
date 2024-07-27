@@ -6,7 +6,7 @@
 	> .row {
 		height: 48px;
 		width: 100%;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: 1px solid index.$border-gray;
 		padding-inline: 25px;
 	}
 
@@ -28,7 +28,6 @@
 	}
 
 	.product-menu {
-		// height: calc(100% - 144px);
 		flex: 9;
 
 		&:has(.main-item) {
@@ -60,6 +59,7 @@
 	0% {
 		transform: rotate(0deg);
 	}
+
 	100% {
 		transform: rotate(360deg);
 	}

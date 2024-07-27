@@ -7,13 +7,14 @@ import DiscountField from "../discount-field/discount-field";
 import ProductPicker from "../productpicker/product-picker";
 import useProductList from "./useProductList";
 
-import cross from "../../assets/cross.png";
+import properties from "../../assets/properties.json";
+import cross from "../../assets/images/cross.png";
 import "./product-list.scss";
 
 const AddProductButton = ({ onClick = _.noop() }) => {
 	return (
 		<Button onClick={onClick} classnames={["add-product-button"]}>
-			Add Product
+			{_.get(properties, "addProduct")}
 		</Button>
 	);
 };
@@ -41,7 +42,6 @@ const ProductItemTemplate = ({
 			<div className={cn(mainClass, "list-row", "row")}>
 				<div
 					className={cn("column large-1", "number", {
-						// before: id,
 						after: !id,
 					})}
 				>
@@ -59,9 +59,8 @@ const ProductItemTemplate = ({
 				>
 					<EditInput
 						value={item.title}
-						placeholderTitle="Select Product"
+						placeholderTitle={_.get(properties, "selectProduct")}
 						handleClick={() => {
-							console.log("printing..item", id);
 							toggleShowProductPicker(!showProductPicker);
 						}}
 						round={round}
@@ -71,7 +70,6 @@ const ProductItemTemplate = ({
 							item={fullData}
 							showOverlay={showProductPicker}
 							onClose={() => {
-								console.log("printing..item", id);
 								toggleShowProductPicker(!showProductPicker);
 							}}
 							onProductAddition={updateProductItem}
@@ -116,7 +114,9 @@ const ProductItemTemplate = ({
 						)}
 					>
 						<span className="text">
-							{children ? "Hide variants" : "Show variants"}
+							{children
+								? _.get(properties, "hideVariants")
+								: _.get(properties, "showVariants")}
 						</span>
 						<span
 							className={cn({
@@ -136,7 +136,7 @@ const ProductItemTemplate = ({
 
 const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 	const [showVariants, toggleShowVariants] = useState(false);
-	const { variants: variantList } = item;
+	const { variants: variantList = [] } = item;
 
 	return (
 		<div className="product-list-item">
@@ -188,15 +188,21 @@ const ProductList = () => {
 
 	return (
 		<div className="product-list-wrapper">
-			<h1 className="product-list-header">Add Products</h1>
+			<h1 className="product-list-header">
+				{_.get(properties, "addProducts")}
+			</h1>
 			<div className="product-list">
 				<div className="header row">
 					<div className="column large-1"></div>
 					<div className="column large-7">
-						<span className="title">Product</span>
+						<span className="title">
+							{_.get(properties, "product")}
+						</span>
 					</div>
 					<div className="column large-4">
-						<span className="title">Discount</span>
+						<span className="title">
+							{_.get(properties, "discount")}
+						</span>
 					</div>
 				</div>
 				<div className="body">

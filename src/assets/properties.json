@@ -1,0 +1,18 @@
+{
+	"add": "Add",
+	"addDiscount": "Add Discount",
+	"addProduct": "Add Product",
+	"addProducts": "Add Products",
+	"cancel": "Cancel",
+	"discount": "Discount",
+	"hideVariants": "Hide variants",
+	"navTitle": "Monk Upsell & Cross-sell",
+	"product": "Product",
+	"productSelected": "product selected",
+	"productsSelected": "products selected",
+	"searchResultEmpty": "No results found against your search! Please try again!!",
+	"selectProduct": "Select Product",
+	"selectProducts": "Select Products",
+	"showVariants": "Show variants",
+	"somethingWentWrong": "Something went wrong!!"
+}

@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import cn from "classnames";
 import createSeparateHandlers from "../utils";
-import editPen from "../../assets/edit_pen.png";
+import editPen from "../../assets/images/edit_pen.png";
 
 import "./edit-input.scss";
 

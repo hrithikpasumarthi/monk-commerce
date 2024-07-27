@@ -1,7 +1,9 @@
 import React, { Suspense } from "react";
 import { createPortal } from "react-dom";
+import _ from "lodash";
 import createSeparateHandlers from "../utils";
 
+import properties from "../../assets/properties.json";
 import "./overlay.scss";
 
 // eslint-disable
@@ -9,7 +11,11 @@ const LazyOverlay = React.lazy(() => import("./overlay"));
 // eslint-enable
 
 const FallbackContent = () => {
-	return <div className="overlay-fallback">Something went wrong!!</div>;
+	return (
+		<div className="overlay-fallback">
+			{_.get(properties, "somethingWentWrong")}
+		</div>
+	);
 };
 
 const OverlayLoader = ({ show = false, onClose, children, ...rest }) => {
@@ -25,7 +31,6 @@ const OverlayLoader = ({ show = false, onClose, children, ...rest }) => {
 				>
 					<Suspense fallback={<FallbackContent />}>
 						<LazyOverlay onClose={onClose} {...rest}>
-							{/* <div>This is an overlay, believe it!</div> */}
 							{children}
 						</LazyOverlay>
 					</Suspense>
