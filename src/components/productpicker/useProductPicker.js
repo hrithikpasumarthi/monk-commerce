@@ -26,23 +26,24 @@ export default (prevSelection) => {
 	};
 
 	const fetchSearchData = (search, abortSignal) => {
-		const API_KEY = "72njgfa948d9aS7gs5";
+		const baseURL = "http://stageapi.monkcommerce.app/task/products/search";
+		const url = new URL(`https://cors-anywhere.herokuapp.com/${baseURL}`); // Mitigating CORS error using proxy server
+		const params = {
+			search,
+			page: 1,
+		};
 
-		return fetch(
-			// Mitigating CORS error using proxy server
-			"https://cors-anywhere.herokuapp.com/http://stageapi.monkcommerce.app/task/products/search",
-			{
-				headers: {
-					"x-api-key": API_KEY,
-					"Content-Type": "text/plain",
-				},
-				params: {
-					search,
-					page: 1,
-				},
-				signal: abortSignal,
-			}
-		)
+		Object.keys(params).forEach((key) =>
+			url.searchParams.append(key, params[key])
+		);
+
+		return fetch(url, {
+			headers: {
+				"x-api-key": process.env.REACT_APP_API_KEY,
+				"Content-Type": "text/plain",
+			},
+			signal: abortSignal,
+		})
 			.then((res) => {
 				if (!res.ok) {
 					throw new Error("Network response was not ok!");

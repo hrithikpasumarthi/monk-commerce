@@ -9,3 +9,5 @@ build/
 .husky
 
 .eslintcache
+
+.env
