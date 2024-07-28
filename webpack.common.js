@@ -1,5 +1,6 @@
 const path = require("path");
 const sass = require("sass");
+const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
@@ -64,5 +65,6 @@ module.exports = {
 			filename: "index.html",
 			template: "src/pages/homepage.html",
 		}),
+		new Dotenv(),
 	],
 };
