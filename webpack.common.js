@@ -65,6 +65,6 @@ module.exports = {
 			filename: "index.html",
 			template: "src/pages/homepage.html",
 		}),
-		new Dotenv(),
+		new Dotenv({ systemvars: true }),
 	],
 };
