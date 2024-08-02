@@ -26,8 +26,10 @@ export default (prevSelection) => {
 	};
 
 	const fetchSearchData = (search, abortSignal) => {
-		const baseURL = "http://stageapi.monkcommerce.app/task/products/search";
-		const url = new URL(`${baseURL}`); // Mitigating CORS error using proxy server
+		const baseURL =
+			"https://stageapi.monkcommerce.app/task/products/search";
+		const url = new URL(baseURL);
+
 		const params = {
 			search,
 			page: 1,

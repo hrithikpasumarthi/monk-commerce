@@ -8,7 +8,10 @@
 	top: 0;
 	left: 0;
 	background: index.$overlay-cover-bg;
-	color: index.$pure-white;
+
+	.overlay-fallback {
+		color: index.$pure-white;
+	}
 }
 
 .overlay {

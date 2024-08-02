@@ -8,6 +8,9 @@ const ACTIONS = {
 	UPDATE_DISCOUNT: "update_discount",
 	OPEN_DISCOUNT_MENU: "open_discount_menu",
 	UPDATE_PRODUCT_ITEM: "update_product",
+	ON_DRAG_START: "start_drag",
+	ON_DRAG_END: "end_drag",
+	ON_DRAG_DROP: "drop_dragged",
 };
 
 const reducer = (state, action) => {
@@ -17,6 +20,9 @@ const reducer = (state, action) => {
 		case ACTIONS.INIT:
 			return {
 				productList: [],
+				currDraggingItem: null,
+				activeProductId: null,
+				currVariantDraggingItem: null,
 			};
 		case ACTIONS.CREATE_NEW_PRODUCT:
 			return handlers.addEmptyProduct(state, payload);
@@ -28,6 +34,12 @@ const reducer = (state, action) => {
 			return handlers.removeProduct(state, payload);
 		case ACTIONS.OPEN_DISCOUNT_MENU:
 			return handlers.onDiscountButtonClick(state, payload);
+		case ACTIONS.ON_DRAG_START:
+			return handlers.handleDragStart(state, payload);
+		case ACTIONS.ON_DRAG_END:
+			return handlers.handleDragEnd(state, payload);
+		case ACTIONS.ON_DRAG_DROP:
+			return handlers.handleDrop(state, payload);
 		default:
 			return state;
 	}
@@ -77,6 +89,27 @@ const useProductList = () => {
 		});
 	};
 
+	const handleDragStart = (payload) => {
+		dispatch({
+			payload,
+			type: ACTIONS.ON_DRAG_START,
+		});
+	};
+
+	const handleDragEnd = (payload) => {
+		dispatch({
+			payload,
+			type: ACTIONS.ON_DRAG_END,
+		});
+	};
+
+	const handleDrop = (payload) => {
+		dispatch({
+			payload,
+			type: ACTIONS.ON_DRAG_DROP,
+		});
+	};
+
 	return {
 		state,
 		createEmptyProduct,
@@ -84,6 +117,9 @@ const useProductList = () => {
 		updateDiscount,
 		removeProduct,
 		onDiscountOptionClick,
+		handleDragStart,
+		handleDragEnd,
+		handleDrop,
 	};
 };
 

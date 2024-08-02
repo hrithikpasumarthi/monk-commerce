@@ -134,12 +134,34 @@ const ProductItemTemplate = ({
 	);
 };
 
-const ProductListItem = ({ item, index, showRemove, ...rest }) => {
+const ProductListItem = ({
+	item,
+	index,
+	showRemove,
+	handleDragStart,
+	handleDragEnd,
+	handleDragOver,
+	handleDrop,
+	...rest
+}) => {
 	const [showVariants, toggleShowVariants] = useState(false);
 	const { variants: variantList = [] } = item;
 
 	return (
-		<div className="product-list-item">
+		<div
+			className="product-list-item"
+			onDragStart={(e) =>
+				handleDragStart({ productId: item.productId, event: e })
+			}
+			onDragEnd={handleDragEnd}
+			onDragOver={(e) => {
+				e.preventDefault();
+			}}
+			onDrop={() => {
+				handleDrop({ productId: item.productId });
+			}}
+			draggable={!showVariants}
+		>
 			<ProductItemTemplate
 				id={index + 1}
 				classnames={["product-list-row"]}
@@ -156,7 +178,29 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 				{showVariants &&
 					variantList.map((variant) => {
 						return (
-							<Fragment key={variant.id}>
+							<div
+								key={variant.id}
+								onDragStart={(e) =>
+									handleDragStart({
+										productId: item.productId,
+										variantId: variant.id,
+										event: e,
+									})
+								}
+								onDragEnd={() =>
+									handleDragEnd({ variantId: variant.id })
+								}
+								onDragOver={(e) => {
+									e.preventDefault();
+								}}
+								onDrop={() => {
+									handleDrop({
+										productId: item.productId,
+										variantId: variant.id,
+									});
+								}}
+								draggable
+							>
 								<ProductItemTemplate
 									productId={item.productId}
 									classnames={["variant-list-row"]}
@@ -166,7 +210,7 @@ const ProductListItem = ({ item, index, showRemove, ...rest }) => {
 									round
 									{...rest}
 								/>
-							</Fragment>
+							</div>
 						);
 					})}
 			</ProductItemTemplate>
@@ -182,6 +226,10 @@ const ProductList = () => {
 		removeProduct,
 		onDiscountOptionClick,
 		updateDiscount,
+		handleDragStart,
+		handleDragEnd,
+		handleDragOver,
+		handleDrop,
 	} = useProductList();
 
 	const list = _.get(state, "productList", []);
@@ -218,6 +266,10 @@ const ProductList = () => {
 										onDiscountOptionClick,
 										updateDiscount,
 										updateProductItem,
+										handleDragStart,
+										handleDragEnd,
+										handleDragOver,
+										handleDrop,
 									}}
 								/>
 							</Fragment>

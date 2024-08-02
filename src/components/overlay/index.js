@@ -18,7 +18,13 @@ const FallbackContent = () => {
 	);
 };
 
-const OverlayLoader = ({ show = false, onClose, children, ...rest }) => {
+const OverlayLoader = ({
+	show = false,
+	onClose,
+	children,
+	addFallback = false,
+	...rest
+}) => {
 	const portal = document.getElementById("portal");
 
 	return show
@@ -29,7 +35,9 @@ const OverlayLoader = ({ show = false, onClose, children, ...rest }) => {
 						onClose();
 					})}
 				>
-					<Suspense fallback={<FallbackContent />}>
+					<Suspense
+						fallback={addFallback ? <FallbackContent /> : null}
+					>
 						<LazyOverlay onClose={onClose} {...rest}>
 							{children}
 						</LazyOverlay>
