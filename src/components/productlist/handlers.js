@@ -23,6 +23,7 @@ const addEmptyProduct = (state) => {
 	};
 
 	return {
+		...state,
 		productList: [...productList, newProductItem],
 	};
 };
@@ -67,6 +68,7 @@ const handleProductUpdate = (state, payload) => {
 	};
 
 	return {
+		...state,
 		productList: [
 			...productList.slice(0, productIndex),
 			...selection.map((item) => createNewProduct(item)),
@@ -92,6 +94,7 @@ const onDiscountButtonClick = (state, payload) => {
 		const variantIndex = fetchIndexWithId(variantList, variantId);
 
 		return {
+			...state,
 			productList: [
 				...productList.slice(0, productIndex),
 				{
@@ -111,6 +114,7 @@ const onDiscountButtonClick = (state, payload) => {
 	}
 
 	return {
+		...state,
 		productList: [
 			...productList.slice(0, productIndex),
 			{
@@ -152,6 +156,7 @@ const updateDiscount = (state, payload) => {
 		const variantIndex = fetchIndexWithId(variantList, variantId);
 
 		return {
+			...state,
 			productList: [
 				...productList.slice(0, productIndex),
 				{
@@ -174,6 +179,7 @@ const updateDiscount = (state, payload) => {
 	}
 
 	return {
+		...state,
 		productList: [
 			...productList.slice(0, productIndex),
 			{
@@ -229,10 +235,135 @@ const removeProduct = (state, payload) => {
 	}
 
 	return {
+		...state,
 		productList: [
 			...productList.slice(0, productIndex),
 			...productList.slice(productIndex + 1),
 		],
+	};
+};
+
+/**
+ * Method to handle draggable list onDragStart event
+ * @param {*} state
+ * @param {*} payload
+ * @returns updated state
+ */
+const handleDragStart = (state, payload) => {
+	const { productId, variantId, event } = payload;
+	event.dataTransfer.setData("text/plain", "");
+
+	if (variantId) {
+		return {
+			...state,
+			activeProductId: productId,
+			currVariantDraggingItem: variantId,
+		};
+	}
+
+	return {
+		...state,
+		currDraggingItem: productId,
+	};
+};
+
+/**
+ *	Method to handle draggable list onDragEnd event.
+ * @param {*} state
+ * @param {*} payload
+ * @returns updated state
+ */
+const handleDragEnd = (state, payload) => {
+	const { variantId } = payload;
+
+	if (variantId) {
+		return {
+			...state,
+			currDraggingItem: null,
+			activeProductId: null,
+			currVariantDraggingItem: null,
+		};
+	}
+
+	return {
+		...state,
+		currDraggingItem: null,
+	};
+};
+
+/**
+ * Method to handle draggable list drop event.
+ * @param {*} state
+ * @param {*} payload
+ * @returns updated state after list drop
+ */
+const handleDrop = (state, payload) => {
+	const {
+		currDraggingItem,
+		productList,
+		activeProductId,
+		currVariantDraggingItem,
+	} = state;
+	const { productId: targetProductId, variantId } = payload;
+
+	if (variantId) {
+		if (!currVariantDraggingItem) return state;
+
+		const productIndex = fetchIndexWithId(
+			productList,
+			activeProductId,
+			"productId"
+		);
+		const productItem = productList[productIndex];
+		const { variants: variantList } = productItem;
+		const currVariantIndex = fetchIndexWithId(
+			variantList,
+			currVariantDraggingItem
+		);
+		const targetVariantIndex = fetchIndexWithId(variantList, variantId);
+
+		if (currVariantIndex === -1 || targetVariantIndex === -1) return state;
+
+		const variantDraggingItem = variantList[currVariantIndex];
+		variantList.splice(currVariantIndex, 1);
+		variantList.splice(targetVariantIndex, 0, variantDraggingItem);
+
+		return {
+			...state,
+			productList: [
+				...productList.slice(0, productIndex),
+				{
+					...productItem,
+					variants: variantList,
+				},
+				...productList.slice(productIndex + 1),
+			],
+		};
+	}
+
+	if (!currDraggingItem) return state;
+
+	const currIndex = fetchIndexWithId(
+		productList,
+		currDraggingItem,
+		"productId"
+	);
+	const targetIndex = fetchIndexWithId(
+		productList,
+		targetProductId,
+		"productId"
+	);
+
+	if (currIndex === -1 || targetIndex === -1) return state;
+
+	const draggingItem = productList[currIndex];
+	productList.splice(currIndex, 1);
+	productList.splice(targetIndex, 0, draggingItem);
+
+	// eslint-disable-next-line consistent-return
+	return {
+		...state,
+		productList,
 	};
 };
 
@@ -242,4 +373,7 @@ export default {
 	updateDiscount,
 	removeProduct,
 	onDiscountButtonClick,
+	handleDragStart,
+	handleDragEnd,
+	handleDrop,
 };

@@ -24,5 +24,6 @@ module.exports = {
 		"react/no-array-index-key": "off",
 		"import/no-dynamic-require": "off",
 		"global-require": "off",
+		"no-useless-return": "off",
 	},
 };

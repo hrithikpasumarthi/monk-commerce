@@ -122,12 +122,10 @@
 	}
 
 	.close {
-		// content: "\2304";
 		transform: rotate(90deg);
 	}
 
 	.open {
-		// content: "\2303";
 		transform: rotate(-90deg);
 	}
 }
