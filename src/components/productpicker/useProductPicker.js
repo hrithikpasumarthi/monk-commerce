@@ -27,7 +27,7 @@ export default (prevSelection) => {
 
 	const fetchSearchData = (search, abortSignal) => {
 		const baseURL = "http://stageapi.monkcommerce.app/task/products/search";
-		const url = new URL(`https://cors-anywhere.herokuapp.com/${baseURL}`); // Mitigating CORS error using proxy server
+		const url = new URL(`${baseURL}`); // Mitigating CORS error using proxy server
 		const params = {
 			search,
 			page: 1,
