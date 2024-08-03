@@ -1,6 +1,6 @@
 {
-	"name": "create-react-app-without-cra",
-	"version": "0.1.0",
+	"name": "monk-commerce-app",
+	"version": "1.0.0",
 	"description": "Creative task by Monk Commerce",
 	"private": true,
 	"scripts": {
@@ -19,8 +19,9 @@
 	},
 	"keywords": [
 		"react-startup-template",
-		"initial-setup",
-		"no-cra"
+		"no-cra",
+		"creative-task",
+		"monk-commerce"
 	],
 	"author": "Koidala Veera Venkata Satya Sai",
 	"license": "MIT",
