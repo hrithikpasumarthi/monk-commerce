@@ -11,7 +11,7 @@ import properties from "../../assets/properties.json";
 import cross from "../../assets/images/cross.png";
 import "./product-list.scss";
 
-const AddProductButton = ({ onClick = _.noop() }) => {
+const AddProductButton = ({ onClick = _.noop }) => {
 	return (
 		<Button onClick={onClick} classnames={["add-product-button"]}>
 			{_.get(properties, "addProduct")}
@@ -27,13 +27,13 @@ const ProductItemTemplate = ({
 	productId,
 	children,
 	showVariantsLink = false,
-	handleClickForShowVariantsLink = _.noop(),
+	handleClickForShowVariantsLink = _.noop,
 	round = false,
 	showRemove,
-	onRemove = _.noop(),
-	onDiscountOptionClick = _.noop(),
-	updateDiscount = _.noop(),
-	updateProductItem = _.noop(),
+	onRemove = _.noop,
+	onDiscountOptionClick = _.noop,
+	updateDiscount = _.noop,
+	updateProductItem = _.noop,
 }) => {
 	const [showProductPicker, toggleShowProductPicker] = useState(false);
 	const [mainClass = ""] = classnames;

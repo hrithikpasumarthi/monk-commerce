@@ -9,7 +9,7 @@ const NumberInput = ({
 	classnames,
 	value,
 	defaultValue,
-	handleClick = _.noop(),
+	handleClick = _.noop,
 	...rest
 }) => {
 	return (

@@ -10,7 +10,7 @@ const EditInput = ({
 	classnames,
 	value = "",
 	placeholderTitle = "",
-	handleClick = _.noop(),
+	handleClick = _.noop,
 	round = false,
 	...rest
 }) => {

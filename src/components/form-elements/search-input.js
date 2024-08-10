@@ -5,7 +5,7 @@ import createSeparateHandlers from "../utils";
 import searchGlass from "../../assets/images/search_glass.png";
 import "./search-input.scss";
 
-const SearchTextInput = ({ handleClick = _.noop() }) => {
+const SearchTextInput = ({ handleClick = _.noop }) => {
 	return (
 		<div className="search-box-wrapper row">
 			<img className="search-icon" alt="search glass" src={searchGlass} />

@@ -1,19 +1,11 @@
 import React, { Fragment, useEffect } from "react";
 import _ from "lodash";
 import useProductPicker from "./useProductPicker";
-import OverlayLoader from "../overlay/index";
+import OverlayLoader, { Spinner } from "../overlay/index";
 import { Button, MultiCheckBox, SearchTextInput } from "../form-elements";
 
 import properties from "../../assets/properties.json";
 import "./product-picker.scss";
-
-const Spinner = () => {
-	return (
-		<div className="spin-wrapper row">
-			<div className="spinner"></div>
-		</div>
-	);
-};
 
 const LabelMain = ({ src, title }) => {
 	return (
@@ -45,8 +37,8 @@ const LabelVariant = ({ variant = {} }) => {
 const ProductPicker = ({
 	item,
 	showOverlay = false,
-	onClose = _.noop(),
-	onProductAddition = _.noop(),
+	onClose = _.noop,
+	onProductAddition = _.noop,
 	...rest
 }) => {
 	const {
@@ -94,6 +86,7 @@ const ProductPicker = ({
 			show={showOverlay}
 			classnames={["product-picker"]}
 			onClose={onClose}
+			addFallback
 			{...rest}
 		>
 			<div className="title row">
