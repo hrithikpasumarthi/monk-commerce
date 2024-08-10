@@ -1,9 +1,7 @@
 import React, { Suspense } from "react";
 import { createPortal } from "react-dom";
-// import _ from "lodash";
 import createSeparateHandlers from "../utils";
 
-// import properties from "../../assets/properties.json";
 import "./overlay.scss";
 
 // eslint-disable
@@ -20,10 +18,9 @@ export const Spinner = () => {
 
 const FallbackContent = () => {
 	return (
-		// <div className="overlay-fallback">
-		// 	{_.get(properties, "somethingWentWrong")}
-		// </div>
-		<Spinner />
+		<div className="overlay-fallback">
+			<Spinner />
+		</div>
 	);
 };
 

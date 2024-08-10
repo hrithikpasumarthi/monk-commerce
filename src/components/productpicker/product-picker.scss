@@ -54,24 +54,3 @@
 		}
 	}
 }
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.spinner {
-	box-sizing: content-box;
-	border: 2px solid index.$monk-green;
-	border-bottom: none;
-	border-right: none;
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
-	animation: spin 500ms linear infinite;
-}

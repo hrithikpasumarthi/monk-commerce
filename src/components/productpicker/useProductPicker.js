@@ -16,11 +16,10 @@ export default (prevSelection) => {
 
 	const handleScroll = (ev) => {
 		const container = ev.target;
+		const scrollPosition =
+			Math.round(container.scrollTop) + container.clientHeight;
 
-		if (
-			container.scrollHeight - Math.round(container.scrollTop) ===
-			container.clientHeight
-		) {
+		if (container.scrollHeight - scrollPosition <= 1) {
 			setDisplayCount(Math.min(displayCount + 10, data.length));
 		}
 	};
