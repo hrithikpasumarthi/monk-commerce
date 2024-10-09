@@ -14,14 +14,16 @@ const NavBar = () => {
 		document.body?.classList.toggle('rf-monk-light', theme === 'light');
 	}, [theme])
 
+	const toggleButton = (<button type="button" className="rf-monk-theme-button" onClick={handleToggleTheme}>
+		Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+	</button>)
+
 	return (
 		<div>
 			<nav className="row navbar">
 				<img alt="monk" src={monk} />
 				<h1 className="title">{_.get(properties, "navTitle")}</h1>
-				<button type="button" className="rf-monk-theme-button" onClick={handleToggleTheme}>
-					Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
-				</button>
+				{toggleButton}
 			</nav>
 		</div>
 
